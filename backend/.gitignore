@@ -1,0 +1,6 @@
+.flake8
+.virtualenv
+.venv
+.idea
+__pycache__
+*.egg-info
