@@ -2,7 +2,6 @@ from repository import db_connect
 
 
 class UserDB:
-
     def __int__(self):
         pass
 
@@ -22,9 +21,9 @@ class UserDB:
             else:
                 print("No result found")
             return user_dir
-
         except:
             print("exception")
+            return None
 
     def add_user(self, username, password):
         pass
@@ -44,9 +43,4 @@ class UserDB:
                 return True
         except:
             print("Exception while deleting the user-data")
-
-
-# db = UserDB()
-# result_user_data = db.get_user_from_username('prutha@gmail.com')
-# res = db.delete_user('zarna@gmail.com')
-# print(res)
+            return None
