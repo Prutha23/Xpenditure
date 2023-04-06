@@ -21,14 +21,39 @@ class UserDB:
                     "is_active"] = row
             return user_dir
         except Exception as err:
-            app.logger.error("Exception in get_user_from_username %s", err)
+            app.logger.error("Exception in get_user_from_username: %s", err)
+            return None
+
+    def get_is_premium(self, username):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+
+            query = f"SELECT is_premium FROM USERS_DETAILS WHERE U_ID IN (select id from users where username = '{username}');"
+            app.logger.info(query)
+
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                if row[0] == 1:
+                    return True
+                else:
+                    return False
+        except Exception as err:
+            app.logger.error("Exception in get_is_premium: %s", err)
             return None
 
     def add_user(self, username, password):
         try:
             return None
         except Exception as err:
-            app.logger.error("Exception in add_user %s", err)
+            app.logger.error("Exception in add_user: %s", err)
+            return None
+
+    def update_user(self):
+        try:
+            return None
+        except Exception as err:
+            app.logger.error("Exception in update_user: %s", err)
             return None
 
     def delete_user(self, username):
@@ -48,5 +73,5 @@ class UserDB:
                 conn.commit()
                 return True
         except Exception as err:
-            app.logger.error("Exception in delete_user %s", err)
+            app.logger.error("Exception in delete_user: %s", err)
             return None

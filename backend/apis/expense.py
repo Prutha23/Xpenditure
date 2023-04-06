@@ -9,7 +9,7 @@ from utils.auth import auth_required, abort
 @auth_required
 def get_by_category_id():
     try:
-        # cat_id = request.json.get('cat_id', None)
+        # cat_id
         args = request.args.to_dict()
         obj = expense_db.ExpenseDB()
         res = obj.get_expense_from_category_id(args["cat_id"])
@@ -21,7 +21,7 @@ def get_by_category_id():
                 "data": res
             }))
     except Exception as err:
-        app.logger.error("Exception in getByCategoryId %s", err)
+        app.logger.error("Exception in getByCategoryId: %s", err)
         abort(500)
 
 
@@ -42,7 +42,7 @@ def add_expense():
         else:
             abort(500)
     except Exception as err:
-        app.logger.error("Exception in expense add %s", err)
+        app.logger.error("Exception in expense add: %s", err)
         abort(500)
 
 
@@ -50,6 +50,7 @@ def add_expense():
 @auth_required
 def update_expense():
     try:
+        # ID, cat_id, amount, description, expense_date
         data = request.get_json()
         obj = expense_db.ExpenseDB()
         res = obj.update_expense(data["ID"], data["cat_id"], data["amount"], data["description"], data["expense_date"])
@@ -70,9 +71,10 @@ def update_expense():
 @auth_required
 def delete_expense():
     try:
-        args = request.args.to_dict()
+        # id
+        data = request.get_json()
         obj = expense_db.ExpenseDB()
-        res = obj.delete_expense(args["id"])
+        res = obj.delete_expense(data["id"])
         if res:
             return make_response(jsonify({
                 "statusCode": 200,
@@ -82,5 +84,5 @@ def delete_expense():
         else:
             abort(500)
     except Exception as err:
-        app.logger.error("Exception in expense delete %s", err)
+        app.logger.error("Exception in expense delete: %s", err)
         abort(500)

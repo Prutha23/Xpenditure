@@ -132,7 +132,20 @@ def admin_required(func):
     return wrapper
 
 
+def get_current_user():
+    verify_jwt_in_request()
+    user = get_authenticated_user()
+    return user
+
+
 def get_current_user_id():
     verify_jwt_in_request()
     user = get_authenticated_user()
     return user["ID"]
+
+
+def check_is_premium():
+    verify_jwt_in_request()
+    username = get_jwt_identity()
+    obj = UserDB()
+    return obj.get_is_premium(username)

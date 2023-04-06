@@ -44,16 +44,37 @@ class ExpenseDB:
             app.logger.error("Exception in add_expense %s", err)
             return None
 
-    def delete_expense(self, exp_id):
-
-        query = f"DELETE FROM EXPENSE WHERE id = '{exp_id}';"
-        app.logger.info(query)
-
-        conn = db_connect.get_connection()
-        cursor = conn.cursor()
+    def update_expense(self, expense_id, cat_id, amount, description, expense_date):
         try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            user_id = auth.get_current_user_id()
+
+            query = f"UPDATE EXPENSE SET CAT_ID = '{cat_id}', AMOUNT = '{amount}', DESCRIPTION = '{description}', UPDATED_BY = '{user_id}', expense_date = '{expense_date}' WHERE ID = '{expense_id}' and created_by = '{user_id}';"
+            app.logger.info(query)
+
             cursor.execute(query)
-            print(cursor.rowcount)
+            app.logger.info(cursor.rowcount)
+            if cursor.rowcount == 0:
+                return False
+            else:
+                conn.commit()
+                return True
+        except Exception as err:
+            app.logger.error("Unable to update the data %s", err)
+            return None
+
+    def delete_expense(self, exp_id):
+        try:
+            user_id = auth.get_current_user_id()
+            query = f"DELETE FROM EXPENSE WHERE id = '{exp_id}' and created_by = '{user_id}';"
+            app.logger.info(query)
+
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+
+            cursor.execute(query)
+            app.logger.info(cursor.rowcount)
             if cursor.rowcount == 0:
                 return False
             else:
@@ -61,20 +82,4 @@ class ExpenseDB:
                 return True
         except Exception as err:
             app.logger.error("Exception in delete_expense %s", err)
-            return None
-
-    def update_expense(self, expense_id, cat_id, amount, description, expense_date):
-        try:
-            conn = db_connect.get_connection()
-            cursor = conn.cursor()
-            user_id = auth.get_current_user_id()
-
-            query = f"UPDATE EXPENSE SET CAT_ID = '{cat_id}', AMOUNT = '{amount}', DESCRIPTION = '{description}', UPDATED_BY = '{user_id}', expense_date = '{expense_date}' WHERE ID = '{expense_id}';"
-            app.logger.info(query)
-
-            cursor.execute(query)
-            cursor.commit()
-            return True
-        except Exception as err:
-            app.logger.error("Unable to update the data %s", err)
             return None
