@@ -12,8 +12,75 @@ def get_by_category_id():
         # cat_id = request.json.get('cat_id', None)
         args = request.args.to_dict()
         obj = expense_db.ExpenseDB()
-        return make_response(jsonify(
-            obj.get_expense_from_category_id(args["cat_id"])
-        ))
-    except:
+        res = obj.get_expense_from_category_id(args["cat_id"])
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Success",
+                "data": res
+            }))
+    except Exception as err:
+        app.logger.error("Exception in getByCategoryId %s", err)
+        abort(500)
+
+
+@app.route("/api/expense/addExpense", methods=['POST'])
+@auth_required
+def add_expense():
+    try:
+        # cat_id, amount, description, expense_date
+        data = request.get_json()
+        obj = expense_db.ExpenseDB()
+        res = obj.add_expense(data["cat_id"], data["amount"], data["description"], data["expense_date"])
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Expense has been added successfully!"
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in expense add %s", err)
+        abort(500)
+
+
+@app.route("/api/expense/editExpense", methods=['POST'])
+@auth_required
+def update_expense():
+    try:
+        data = request.get_json()
+        obj = expense_db.ExpenseDB()
+        res = obj.update_expense(data["ID"], data["cat_id"], data["amount"], data["description"], data["expense_date"])
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Expense has been updated successfully!"
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in expense update: %s", err)
+        abort(500)
+
+
+@app.route("/api/expense/deleteExpense", methods=['POST'])
+@auth_required
+def delete_expense():
+    try:
+        args = request.args.to_dict()
+        obj = expense_db.ExpenseDB()
+        res = obj.delete_expense(args["id"])
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Expense has been deleted successfully!"
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in expense delete %s", err)
         abort(500)

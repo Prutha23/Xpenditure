@@ -13,8 +13,12 @@ export class HomeComponent implements OnInit{
   ngOnInit(){
     // example
     let catdId = 2;
-    this.http.get('/expense/getByCategoryId?cat_id='+catdId).subscribe(res=>{
+    this.http.get('/expense/getByCategoryId?cat_id='+catdId)
+    .subscribe(res=>{
       console.log(res)
+    }, 
+    err=>{
+      console.log(err)
     })
   }
 }
