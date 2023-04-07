@@ -6,28 +6,19 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './services/auth.guard';
 import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './error/error.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-    children: [
-      { path: 'home', component: HomeComponent },
-      // { path: 'admin-content', component: AdminContentComponent, canActivate: [AdminGuard] },
-      { path: 'error', component: ErrorComponent }
-    ]
-  },
   {
     path: 'login',
     component: LoginComponent
   },
-  {
-    path: 'logout',
-    component: LogoutComponent,
-    canActivate: [AuthGuard]
-  }
+  { path: 'home', component: HomeComponent },
+  { path: 'personal-details', component: UserDetailsComponent },
+  { path: 'add-expense', component: AddExpenseComponent },
+  { path: 'reports', component: ReportsComponent }
 ];
 
 @NgModule({

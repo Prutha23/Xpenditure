@@ -11,6 +11,9 @@ import { ErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { ReportsComponent } from './reports/reports.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { HomeComponent } from './home/home.component';
     ErrorComponent,
     LoginComponent,
     LogoutComponent,
-    HomeComponent
+    HomeComponent,
+    UserDetailsComponent,
+    ReportsComponent,
+    AddExpenseComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+<div>
+    <div>
+        <h2>Total = {{ total }}</h2>
+    </div>
+    <ul>
+        <li *ngFor="let expense of expenses">
+            <p>Expense - {{ expense.expense }}</p>
+            <p>Category - {{ expense.category | titlecase }}</p>
+            <p>Date - {{ expense.date }}</p>
+            <p>Note - {{ expense.note }}</p>
+        </li>
+    </ul>
+
+    <a routerLink="../home">Go Back</a>
+</div>
