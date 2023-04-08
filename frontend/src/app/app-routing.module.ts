@@ -6,18 +6,17 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './services/auth.guard';
 import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './error/error.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-    children: [
-      { path: 'home', component: HomeComponent },
-      // { path: 'admin-content', component: AdminContentComponent, canActivate: [AdminGuard] },
-      { path: 'error', component: ErrorComponent }
-    ]
+    component: LandingPageComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'login',
@@ -27,6 +26,17 @@ const routes: Routes = [
     path: 'logout',
     component: LogoutComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'u',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    children: [
+      { path: 'home', component: HomeComponent },
+      // { path: 'admin-content', component: AdminContentComponent, canActivate: [AdminGuard] },
+      { path: 'error', component: ErrorComponent }
+    ]
   }
 ];
 
