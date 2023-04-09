@@ -83,3 +83,23 @@ class ExpenseDB:
         except Exception as err:
             app.logger.error("Exception in delete_expense %s", err)
             return None
+        
+    # Repository functions for Report and Expense Prediction API 
+    def get_all_expenses(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            expense_list = []
+
+            query = "select ID, CAT_ID, AMOUNT from EXPENSE;"
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                expense_dit = {}
+                expense_dit["ID"], expense_dit["CAT_ID"], expense_dit["AMOUNT"] = row
+                expense_list.append(expense_dit)
+            return expense_list
+        except Exception as err:
+            app.logger.error("Exception in get_expense_from_category_id %s", err)
+            return None
