@@ -199,3 +199,34 @@ class UserDB:
         except Exception as err:
             app.logger.error("Exception in update_user_details: %s", err)
             return None
+
+    def get_admin_counts(self):
+        try:
+            conn = db_connect.get_connection()
+            dir = {}
+
+            cursor = conn.cursor()
+            query = f"select count(*) as no from USERS where IS_ACTIVE=1;"
+            app.logger.info(query)
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                dir["USERS"] = row[0]
+
+            cursor = conn.cursor()
+            query = f"select count(*) as no from USERS_DETAILS where IS_PREMIUM=1;"
+            app.logger.info(query)
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                dir["PREMIUM_USERS"] = row[0]
+
+            cursor = conn.cursor()
+            query = f"select count(*) from EXPENSE;"
+            app.logger.info(query)
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                dir["EXPENSE"] = row[0]
+
+            return dir
+        except Exception as err:
+            app.logger.error("Exception in get_admin_counts: %s", err)
+            return None

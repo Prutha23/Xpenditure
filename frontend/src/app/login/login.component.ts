@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     if(this.auth.isAuthenticated()) {
       if(this.auth.isAdmin())
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/admin/dashboard']);
       else if(this.auth.isUser())
         this.router.navigate(['/home']);
       else
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       (res) => {
         this.message = '';
         if(this.auth.isAdmin())
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/admin/dashboard']);
         else if(this.auth.isUser())
           this.router.navigate(['/home']);
         else

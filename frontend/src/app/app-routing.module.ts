@@ -10,8 +10,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ExpenseComponent } from './expense/expense.component';
 import { AdminComponent } from './admin/admin.component';
-import { UserComponent } from './user/user.component';
-import { CategoryComponent } from './category/category.component';
+import { UserComponent } from './admin/user/user.component';
+import { CategoryComponent } from './admin/category/category.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuard, AdminGuard],
     children: [
       { path: 'user', component: UserComponent, canActivate: [AdminGuard] },
-      { path: 'category', component: CategoryComponent, canActivate: [AdminGuard] }
+      { path: 'category', component: CategoryComponent, canActivate: [AdminGuard] },
+      { path: 'dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] }
     ]
   },
   {

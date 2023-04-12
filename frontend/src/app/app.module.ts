@@ -15,8 +15,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ExpenseComponent } from './expense/expense.component';
 import { AdminComponent } from './admin/admin.component';
-import { CategoryComponent } from './category/category.component';
-import { UserComponent } from './user/user.component';
+import { CategoryComponent } from './admin/category/category.component';
+import { UserComponent } from './admin/user/user.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UserComponent } from './user/user.component';
     ExpenseComponent,
     AdminComponent,
     CategoryComponent,
-    UserComponent
+    UserComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

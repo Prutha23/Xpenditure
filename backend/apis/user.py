@@ -66,3 +66,23 @@ def update_active_status():
     except Exception as err:
         app.logger.error("Exception in update_active_status: %s", err)
         abort(500)
+
+
+@app.route("/api/admin/count")
+@admin_required
+def get_admin_counts():
+    try:
+        obj = user_db.UserDB()
+        res = obj.get_admin_counts()
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Success",
+                "data": res
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in get_admin_counts: %s", err)
+        abort(500)
