@@ -12,7 +12,7 @@ class UserDB:
             conn = db_connect.get_connection()
             cursor = conn.cursor()
 
-            query = f"SELECT u.ID, u.USERNAME, u.IS_ACTIVE, ud.IS_PREMIUM FROM USERS u LEFT JOIN USERS_DETAILS ud ON u.ID = ud.U_ID"
+            query = f"SELECT u.ID, u.USERNAME, u.IS_ACTIVE, ud.IS_PREMIUM FROM USERS u LEFT JOIN USERS_DETAILS ud ON u.ID = ud.U_ID ORDER BY USERNAME"
             app.logger.info(query)
             users = []
 

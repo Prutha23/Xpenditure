@@ -11,7 +11,7 @@ def get_all_for_current_user():
     try:
         obj = expense_db.ExpenseDB()
         res = obj.getall_expenses_for_current_user()
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",
@@ -33,7 +33,7 @@ def get_by_category_id():
         args = request.args.to_dict()
         obj = expense_db.ExpenseDB()
         res = obj.get_expense_from_category_id(args["cat_id"])
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",

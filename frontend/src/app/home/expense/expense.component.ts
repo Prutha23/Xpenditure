@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
+import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -113,7 +113,7 @@ export class ExpenseComponent implements OnInit {
   edit(exp: any){
     this.expenseForm.reset();
     this.expenseForm = new FormGroup({
-      ID: new FormControl(exp["ID"], Validators.required),
+      ID: new FormControl(exp["ID"]),
       cat_id: new FormControl(exp["CAT_ID"], Validators.required),
       amount: new FormControl(exp["AMOUNT"], Validators.required),
       description: new FormControl(exp["DESCRIPTION"]),

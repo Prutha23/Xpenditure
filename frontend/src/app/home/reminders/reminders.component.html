@@ -1,0 +1,82 @@
+<div class="row pt-3">
+    <div class="col-md-8">
+        <h2>Reminders</h2>
+    </div>
+    <div class="col-md-4 tar">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" (click)="openModal = true; clean();">
+            Add Reminder
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal" [style.display]="openModal ? 'block' : 'none'">
+          <div class="modal-content">
+            
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Reminder Details</h4>
+              </div>
+            </div>
+
+            <hr>
+            <form [formGroup]="reminderForm" (ngSumbit)="onSubmit()">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Email*</label>
+                  <input type="email" class="form-control" formControlName="EMAIL">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Due Date*</label>
+                    <input type="date" class="form-control" formControlName="DUE_DATE">
+                </div>
+              </div>
+
+              <div class="row pt-3">
+                <div class="form-group col-md-12">
+                  <label>Description</label>
+                  <textarea class="form-control" formControlName="DESCRIPTION"></textarea>
+                </div>
+              </div>
+
+              <input type="hidden" formControlName="ID">
+            </form>
+
+            <hr>
+            <div class="row">
+              <div class="col-md-12 tar">
+                <button type="submit" class="btn btn-success" (click)="openModal = false;onSubmit();" [disabled]="!reminderForm.valid">Save Changes</button>
+                <button type="button" class="btn btn-secondary ml-20" (click)="openModal = false">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>  
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered">
+            <thead class="bg-secondary text-white">
+              <tr>
+                <th scope="col">Due Date</th>
+                <th scope="col">Email</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rem of reminders">
+                <td>{{ rem.DUE_DATE }}</td>
+                <td>{{ rem.EMAIL }}</td>
+                <td>{{ rem.DESCRIPTION }}</td>
+                <td>
+                    <span (click)="edit(rem);openModal = true;" ><i class="bi bi-pencil-fill"></i></span>
+                    <span (click)="delete(rem.ID)" ><i class="bi bi-trash pl-20"></i></span>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+  

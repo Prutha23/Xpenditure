@@ -13,11 +13,12 @@ import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
-import { ExpenseComponent } from './expense/expense.component';
+import { ExpenseComponent } from './home/expense/expense.component';
 import { AdminComponent } from './admin/admin.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { UserComponent } from './admin/user/user.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { RemindersComponent } from './home/reminders/reminders.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
     AdminComponent,
     CategoryComponent,
     UserComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    RemindersComponent
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,7 @@ def get_all_categories():
     try:
         obj = category_db.CategoryDB()
         res = obj.get_all_categories()
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",
@@ -31,7 +31,7 @@ def get_categories_for_user():
     try:
         obj = category_db.CategoryDB()
         res = obj.get_categories_for_user()
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",

@@ -34,7 +34,7 @@ def get_all():
     try:
         obj = user_db.UserDB()
         res = obj.get_all()
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",
@@ -74,7 +74,7 @@ def get_admin_counts():
     try:
         obj = user_db.UserDB()
         res = obj.get_admin_counts()
-        if res:
+        if res is not None:
             return make_response(jsonify({
                 "statusCode": 200,
                 "status": "Success",

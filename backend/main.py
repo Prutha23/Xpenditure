@@ -12,6 +12,7 @@ from apis.login import *  # noqa
 from apis.expense import *  # noqa
 from apis.category import *  # noqa
 from apis.user import *  # noqa
+from apis.reminder import *  # noqa
 
 
 if __name__ == "__main__":

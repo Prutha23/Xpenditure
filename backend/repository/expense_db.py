@@ -15,7 +15,7 @@ class ExpenseDB:
             user_id = auth.get_current_user_id()
             expense_list = []
 
-            query = f"select e.ID, c.NAME, e.AMOUNT, e.DESCRIPTION, e.EXPENSE_DATE from EXPENSE e LEFT JOIN CATEGORY c ON e.CAT_ID = c.ID where e.created_by = '{user_id}';"
+            query = f"select e.ID, c.NAME, e.AMOUNT, e.DESCRIPTION, e.EXPENSE_DATE from EXPENSE e LEFT JOIN CATEGORY c ON e.CAT_ID = c.ID where e.created_by = '{user_id}' ORDER BY e.EXPENSE_DATE DESC;"
             app.logger.info(query)
             cursor.execute(query)
 
@@ -35,13 +35,13 @@ class ExpenseDB:
             user_id = auth.get_current_user_id()
             expense_list = []
 
-            query = f"select ID, CAT_ID, AMOUNT, DESCRIPTION from EXPENSE where CAT_ID = '{catid}' and created_by = '{user_id}';"
+            query = f"select ID, CAT_ID, EXPENSE_DATE, AMOUNT, DESCRIPTION from EXPENSE where CAT_ID = '{catid}' and created_by = '{user_id}' ORDER BY EXPENSE_DATE DESC;"
             app.logger.info(query)
             cursor.execute(query)
 
             for row in cursor.fetchall():
                 expense_dit = {}
-                expense_dit["ID"], expense_dit["CAT_ID"], expense_dit["AMOUNT"], expense_dit["DESCRIPTION"] = row
+                expense_dit["ID"], expense_dit["CAT_ID"], expense_dit["EXPENSE_DATE"], expense_dit["AMOUNT"], expense_dit["DESCRIPTION"] = row
                 expense_list.append(expense_dit)
             return expense_list
         except Exception as err:
@@ -58,8 +58,11 @@ class ExpenseDB:
             app.logger.info(query)
 
             cursor.execute(query)
-            cursor.commit()
-            return True
+            if cursor.rowcount == 0:
+                return False
+            else:
+                conn.commit()
+                return True
         except Exception as err:
             app.logger.error("Exception in add_expense %s", err)
             return None
