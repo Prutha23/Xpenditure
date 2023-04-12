@@ -13,6 +13,10 @@ import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
+import { ExpenseComponent } from './expense/expense.component';
+import { AdminComponent } from './admin/admin.component';
+import { CategoryComponent } from './category/category.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { RegisterComponent } from './register/register.component';
     LogoutComponent,
     HomeComponent,
     LandingPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    ExpenseComponent,
+    AdminComponent,
+    CategoryComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

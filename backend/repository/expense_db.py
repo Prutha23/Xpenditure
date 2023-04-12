@@ -8,6 +8,26 @@ class ExpenseDB:
     def __int__(self):
         pass
 
+    def getall_expenses_for_current_user(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            user_id = auth.get_current_user_id()
+            expense_list = []
+
+            query = f"select e.ID, c.NAME, e.AMOUNT, e.DESCRIPTION, e.EXPENSE_DATE from EXPENSE e LEFT JOIN CATEGORY c ON e.CAT_ID = c.ID where e.created_by = '{user_id}';"
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                expense_dit = {}
+                expense_dit["ID"], expense_dit["NAME"], expense_dit["AMOUNT"], expense_dit["DESCRIPTION"], expense_dit["EXPENSE_DATE"] = row
+                expense_list.append(expense_dit)
+            return expense_list
+        except Exception as err:
+            app.logger.error("Exception in getall_expenses_for_current_user %s", err)
+            return None
+
     def get_expense_from_category_id(self, catid):
         try:
             conn = db_connect.get_connection()

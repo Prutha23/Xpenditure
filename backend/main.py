@@ -11,6 +11,7 @@ from utils.error_handler import *  # noqa
 from apis.login import *  # noqa
 from apis.expense import *  # noqa
 from apis.category import *  # noqa
+from apis.user import *  # noqa
 
 
 if __name__ == "__main__":

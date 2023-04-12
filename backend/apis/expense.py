@@ -5,6 +5,26 @@ from repository import expense_db
 from utils.auth import auth_required, abort
 
 
+@app.route("/api/expense/getAllForCurrentUser")
+@auth_required
+def get_all_for_current_user():
+    try:
+        obj = expense_db.ExpenseDB()
+        res = obj.getall_expenses_for_current_user()
+        if res:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Success",
+                "data": res
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in getAllForCurrentUser: %s", err)
+        abort(500)
+
+
 @app.route("/api/expense/getByCategoryId")
 @auth_required
 def get_by_category_id():
@@ -20,6 +40,8 @@ def get_by_category_id():
                 "message": "Success",
                 "data": res
             }))
+        else:
+            abort(500)
     except Exception as err:
         app.logger.error("Exception in getByCategoryId: %s", err)
         abort(500)

@@ -1,0 +1,36 @@
+<div class="row pt-3">
+    <div class="col-md-8">
+        <h2>Users</h2>
+    </div>
+</div>
+
+<div class="row pt-3">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered">
+            <thead class="bg-secondary text-white">
+              <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Premium</th>
+                <th scope="col">Active</th>
+                <th scope="col" style="width:35%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>{{ user.USERNAME }}</td>
+                <td>{{ user.IS_PREMIUM == 1 ? 'Yes' : 'No' }}</td>
+                <td>{{ user.IS_ACTIVE == 1 ? 'Yes' : 'No' }}</td>
+                <td>
+                    <button class="btn btn-outline-success" (click)="changeActiveStatus(user)">
+                        {{ user.IS_ACTIVE == 1 ? 'Deactivate' : 'Activate' }}
+                    </button>
+                    <button class="btn btn-outline-primary ml-20" (click)="approvePayment(user)" *ngIf="user.IS_PREMIUM != 1">
+                        Approve Payment
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+  

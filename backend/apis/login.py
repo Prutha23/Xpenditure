@@ -2,6 +2,7 @@ from flask import request, make_response
 from flask.json import jsonify
 from utils.auth import *
 from main import app
+from repository import user_db
 
 
 @app.route('/api/auth/login', methods=['POST'])
@@ -30,10 +31,12 @@ def login_info_api():
     """
     try:
         user = get_authenticated_user()
+        userDb = user_db.UserDB()
         return make_response(jsonify({
             'username': user['username'],
             'is_active': user['is_active'],
-            'role': user['role']
+            'role': user['role'],
+            'is_premium': userDb.get_is_premium(user['username'])
         }))
     except AuthenticationError as error:
         app.logger.error('authentication error: %s', error)

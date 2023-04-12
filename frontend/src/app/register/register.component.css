@@ -1,0 +1,13 @@
+.card{
+    width: 50%;
+    margin-top: 7%;
+    text-align: center;
+}
+
+p{
+    font-size: smaller;
+}
+
+button{
+    width: 99%;
+}

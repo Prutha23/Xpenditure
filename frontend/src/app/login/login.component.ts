@@ -19,6 +19,14 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    if(this.auth.isAuthenticated()) {
+      if(this.auth.isAdmin())
+        this.router.navigate(['/admin']);
+      else if(this.auth.isUser())
+        this.router.navigate(['/home']);
+      else
+        this.router.navigate(['/error']);
+    }
   }
 
   onSubmit() {
@@ -26,8 +34,14 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.get('password')?.value;
     console.log(`logging in: ${username}`);
     this.auth.authenticate(username, password).subscribe(
-      () => {
-        this.router.navigate(['/']);
+      (res) => {
+        this.message = '';
+        if(this.auth.isAdmin())
+          this.router.navigate(['/admin']);
+        else if(this.auth.isUser())
+          this.router.navigate(['/home']);
+        else
+          this.router.navigate(['/error']);
       },
       (error) => {
         this.message = error;

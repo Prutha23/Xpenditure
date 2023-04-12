@@ -7,6 +7,25 @@ class UserDB:
     def __int__(self):
         pass
 
+    def get_all(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+
+            query = f"SELECT u.ID, u.USERNAME, u.IS_ACTIVE, ud.IS_PREMIUM FROM USERS u LEFT JOIN USERS_DETAILS ud ON u.ID = ud.U_ID"
+            app.logger.info(query)
+            users = []
+
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                user_dir = {}
+                user_dir["ID"], user_dir["USERNAME"], user_dir["IS_ACTIVE"], user_dir["IS_PREMIUM"] = row
+                users.append(user_dir)
+            return users
+        except Exception as err:
+            app.logger.error("Exception in get_all: %s", err)
+            return None
+
     def get_user_from_username(self, username):
         try:
             conn = db_connect.get_connection()
@@ -60,43 +79,86 @@ class UserDB:
                 return True
 
         except Exception as err:
-            app.logger.error("Exception in delete_user: %s", err)
+            app.logger.error("Exception in update_user_password: %s", err)
             return None
 
-    def add_user(self, username, password, fname, lname, phoneno, addressline1, street, province, zipcode, country):
-        try:
-            conn = db_connect.get_connection()
-            cursor = conn.cursor()
-            user_id = auth.get_current_user_id()
-
-            query = f"INSERT into USERS(USERNAME, PASSWORD, ROLE, IS_ACTIVE) VALUES('{username}', '{password}', 1, 1);"
-            app.logger.info(query)
-
-            cursor.insert_id()
-
-        except Exception as err:
-            app.logger.error("Exception in add_user: %s", err)
-            return None
-
-    def delete_user(self, username):
+    def update_active_status(self, id, is_active):
         try:
             conn = db_connect.get_connection()
             cursor = conn.cursor()
 
-            query = f"DELETE FROM USERS WHERE USERNAME = '{username}';"
+            query = f"UPDATE USERS SET IS_ACTIVE = '{is_active}' where ID = '{id}';"
             app.logger.info(query)
 
             cursor.execute(query)
             app.logger.info(cursor.rowcount)
-
             if cursor.rowcount == 0:
                 return False
             else:
                 conn.commit()
                 return True
         except Exception as err:
-            app.logger.error("Exception in delete_user: %s", err)
+            app.logger.error("Exception in update_active_status: %s", err)
             return None
+
+    def add_user_and_user_details(self, username, password, fname, lname, phoneno, addressline1, street, province, zipcode, country):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+
+            query = f"INSERT into USERS(USERNAME, PASSWORD, ROLE, IS_ACTIVE) VALUES('{username}', '{password}', 1, 1);"
+            app.logger.info(query)
+            cursor.execute(query)
+            u_id = 0
+
+            if cursor.rowcount != 0:
+                cursor = conn.cursor()
+                query = f"SELECT ID from USERS where username='{username}'"
+                app.logger.info(query)
+                cursor.execute(query)
+
+                for row in cursor.fetchall():
+                    u_id = row[0]
+                app.logger.info(u_id)
+
+                if u_id != 0:
+                    cursor = conn.cursor()
+                    query = f"INSERT into USERS_DETAILS(FNAME, LNAME, EMAILID, IS_PREMIUM, PHONENO, ADDRESSLINE1, STREET, PROVINCE, ZIPCODE, COUNTRY, U_ID) VALUES('{fname}', '{lname}', '{username}', 0,'{phoneno}','{addressline1}','{street}','{province}','{zipcode}','{country}','{u_id}')";
+                    app.logger.info(query)
+                    cursor.execute(query)
+
+                    if cursor.rowcount != 0:
+                        conn.commit()
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        except Exception as err:
+            app.logger.error("Exception in add_user: %s", err)
+            return None
+
+    # def delete_user(self, username):
+    #     try:
+    #         conn = db_connect.get_connection()
+    #         cursor = conn.cursor()
+    #
+    #         query = f"DELETE FROM USERS WHERE USERNAME = '{username}';"
+    #         app.logger.info(query)
+    #
+    #         cursor.execute(query)
+    #         app.logger.info(cursor.rowcount)
+    #
+    #         if cursor.rowcount == 0:
+    #             return False
+    #         else:
+    #             conn.commit()
+    #             return True
+    #     except Exception as err:
+    #         app.logger.error("Exception in delete_user: %s", err)
+    #         return None
 
     def get_user_details_from_user_id(self, userId):
         try:

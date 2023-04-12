@@ -2,16 +2,13 @@
     <div class="navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item pl-20" (click)="toggleColor('f1')">
-                <a class="nav-link" routerLink="/home"><span><i class="bi bi-house" [style.color]="f1 ? 'greenyellow' : 'white'"></i></span></a>
+                <a class="nav-link" routerLink="/admin" [style.color]="f1 ? 'greenyellow' : 'white'">Dashboard</a>
             </li>
             <li class="nav-item pl-20" (click)="toggleColor('f2')">
-                <a class="nav-link" routerLink="/home/expense" [style.color]="f2 ? 'greenyellow' : 'white'">Expense</a>
+                <a class="nav-link" routerLink="/admin/category" [style.color]="f2 ? 'greenyellow' : 'white'">Category</a>
             </li>
             <li class="nav-item pl-20" (click)="toggleColor('f3')">
-                <a class="nav-link" routerLink="/home/reports" [style.color]="f3 ? 'greenyellow' : 'white'">Reports</a>
-            </li>
-            <li class="nav-item pl-20" (click)="toggleColor('f4')">
-                <a class="nav-link" routerLink="/home/reminders" [style.color]="f4 ? 'greenyellow' : 'white'">Reminders</a>
+                <a class="nav-link" routerLink="/admin/user" [style.color]="f3 ? 'greenyellow' : 'white'">Users</a>
             </li>
         </ul>        
     </div>

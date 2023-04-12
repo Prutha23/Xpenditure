@@ -25,6 +25,7 @@ class UserInfo {
   username: string = '';
   is_active: number = 0;
   role: number = 0;
+  is_premium: Boolean = false;
 }
 
 
@@ -72,6 +73,7 @@ export class AuthService {
               localStorage.setItem('username', userInfo.username);
               localStorage.setItem('is_active', String(userInfo.is_active));
               localStorage.setItem('role', String(userInfo.role));
+              localStorage.setItem('is_premium', String(userInfo.is_premium));
               this.authStatus.next(true);
             })
           );
@@ -134,8 +136,16 @@ export class AuthService {
     return localStorage.getItem('role') == '2';
   }
 
+  isUser(): boolean {
+    return localStorage.getItem('role') == '1';
+  }
+
   // get username
   getUsername(): string | null {
     return localStorage.getItem('username');
+  }
+
+  isPremiumUser(): boolean {
+    return <any>localStorage.getItem('is_premium');
   }
 }

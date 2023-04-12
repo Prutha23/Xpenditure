@@ -18,6 +18,8 @@ def get_all_categories():
                 "message": "Success",
                 "data": res
             }))
+        else:
+            abort(500)
     except Exception as err:
         app.logger.error("Exception in getAllForAdmin: %s", err)
         abort(500)
@@ -36,6 +38,8 @@ def get_categories_for_user():
                 "message": "Success",
                 "data": res
             }))
+        else:
+            abort(500)
     except Exception as err:
         app.logger.error("Exception in getAllForCurrentUser: %s", err)
         abort(500)
@@ -52,7 +56,7 @@ def add_category():
         if user["role"] == 2 or is_premium == 1:
             data = request.get_json()
             obj = category_db.CategoryDB()
-            res = obj.add_category(user["ID"], data["name"], data["remarks"])
+            res = obj.add_category(user["ID"], data["NAME"], data["REMARKS"])
             if res:
                 return make_response(jsonify({
                     "statusCode": 200,
@@ -79,7 +83,7 @@ def update_category():
         if user["role"] == 2 or is_premium == 1:
             data = request.get_json()
             obj = category_db.CategoryDB()
-            res = obj.update_category(user["role"], user["ID"], data["id"], data["name"], data["remarks"])
+            res = obj.update_category(user["role"], user["ID"], data["ID"], data["NAME"], data["REMARKS"])
             if res:
                 return make_response(jsonify({
                     "statusCode": 200,
@@ -95,28 +99,28 @@ def update_category():
         abort(500)
 
 
-@app.route("/api/category/deleteCategory", methods=['POST'])
-@auth_required
-def delete_category():
-    try:
-        # id
-        user = get_current_user()
-        is_premium = check_is_premium()
-
-        if user["role"] == 2 or is_premium:
-            data = request.get_json()
-            obj = category_db.CategoryDB()
-            res = obj.delete_category(user["role"], user["ID"], data["id"])
-            if res:
-                return make_response(jsonify({
-                    "statusCode": 200,
-                    "status": "Success",
-                    "message": "Category has been deleted successfully!"
-                }))
-            else:
-                abort(500)
-        else:
-            abort(403)
-    except Exception as err:
-        app.logger.error("Exception in category delete: %s", err)
-        abort(500)
+# @app.route("/api/category/deleteCategory", methods=['POST'])
+# @auth_required
+# def delete_category():
+#     try:
+#         # id
+#         user = get_current_user()
+#         is_premium = check_is_premium()
+#
+#         if user["role"] == 2 or is_premium:
+#             data = request.get_json()
+#             obj = category_db.CategoryDB()
+#             res = obj.delete_category(user["role"], user["ID"], data["id"])
+#             if res:
+#                 return make_response(jsonify({
+#                     "statusCode": 200,
+#                     "status": "Success",
+#                     "message": "Category has been deleted successfully!"
+#                 }))
+#             else:
+#                 abort(500)
+#         else:
+#             abort(403)
+#     except Exception as err:
+#         app.logger.error("Exception in category delete: %s", err)
+#         abort(500)

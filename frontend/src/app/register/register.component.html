@@ -4,19 +4,63 @@
         <h3 class="card-title">Xpenditure</h3>
         <div class="card-text">
           <p style="color:red">{{ message }}</p>
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label></label>
-                <input type="email" class="form-control" placeholder="Email" formControlName="username">
-            </div>
-            <div class="form-group">
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            
+            <div class="row">
+              <div class="form-group col-md-4">
                 <label></label>
-                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                  <input type="email" class="form-control" placeholder="First Name" formControlName="fName">
+              </div>
+              <div class="form-group col-md-4">
+                <label></label>
+                  <input type="email" class="form-control" placeholder="Last Name" formControlName="lName">
+              </div>
+              <div class="form-group col-md-4">
+                <label></label>
+                  <input type="text" class="form-control" placeholder="Phone No" formControlName="phoneno">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label></label>
+                  <input type="email" class="form-control" placeholder="Email" formControlName="username">
+              </div>
+              <div class="form-group col-md-6">
+                <label></label>
+                  <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label></label>
+                  <input type="text" class="form-control" placeholder="House No & Street" formControlName="addressLine1">
+              </div>
+              <div class="form-group col-md-6">
+                  <label></label>
+                  <input type="text" class="form-control" placeholder="City" formControlName="street">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label></label>
+                <input type="text" class="form-control" placeholder="Province" formControlName="province">
+              </div>
+              <div class="form-group col-md-4">
+                <label></label>
+                <input type="text" class="form-control" placeholder="Postal Code" formControlName="zipCode">
+              </div>
+              <div class="form-group col-md-4">
+                <label></label>
+                <input type="text" class="form-control" placeholder="Country" formControlName="country">
+              </div>
             </div>
             <div class="form-group">
               <label></label>
             </div>
-            <button class="btn btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
+            <button class="btn btn-success" type="submit" [disabled]="!registrationForm.valid">Register</button>
           </form>
 
           <p class="pt-3 mb-0">Already have an account? <a routerLink="/login">Login</a></p>

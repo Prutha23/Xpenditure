@@ -8,6 +8,10 @@ import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './error/error.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
+import { ExpenseComponent } from './expense/expense.component';
+import { AdminComponent } from './admin/admin.component';
+import { UserComponent } from './user/user.component';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   {
@@ -15,12 +19,16 @@ const routes: Routes = [
     component: LandingPageComponent
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: 'register',
     component: RegisterComponent
   },
-  {
-    path: 'login',
-    component: LoginComponent
+  { 
+    path: 'error', 
+    component: ErrorComponent 
   },
   {
     path: 'logout',
@@ -28,14 +36,22 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'u',
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard, AdminGuard],
+    canActivateChild: [AuthGuard, AdminGuard],
+    children: [
+      { path: 'user', component: UserComponent, canActivate: [AdminGuard] },
+      { path: 'category', component: CategoryComponent, canActivate: [AdminGuard] }
+    ]
+  },
+  {
+    path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [
-      { path: 'home', component: HomeComponent },
-      // { path: 'admin-content', component: AdminContentComponent, canActivate: [AdminGuard] },
-      { path: 'error', component: ErrorComponent }
+      { path: 'expense', component: ExpenseComponent}
     ]
   }
 ];

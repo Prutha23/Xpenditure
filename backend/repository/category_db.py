@@ -86,24 +86,24 @@ class CategoryDB:
             app.logger.error("Unable to update category: %s", err)
             return None
 
-    def delete_category(self, role, user_id, cat_id):
-        try:
-            if role == 2:
-                query = f"DELETE FROM CATEGORY WHERE id = '{cat_id}';"
-            else:
-                query = f"DELETE FROM CATEGORY WHERE id = '{cat_id}' and created_by = '{user_id}';"
-            app.logger.info(query)
-
-            conn = db_connect.get_connection()
-            cursor = conn.cursor()
-
-            cursor.execute(query)
-            app.logger.info(cursor.rowcount)
-            if cursor.rowcount == 0:
-                return False
-            else:
-                conn.commit()
-                return True
-        except Exception as err:
-            app.logger.error("Exception in delete_category: %s", err)
-            return None
+    # def delete_category(self, role, user_id, cat_id):
+    #     try:
+    #         if role == 2:
+    #             query = f"DELETE FROM CATEGORY WHERE id = '{cat_id}';"
+    #         else:
+    #             query = f"DELETE FROM CATEGORY WHERE id = '{cat_id}' and created_by = '{user_id}';"
+    #         app.logger.info(query)
+    #
+    #         conn = db_connect.get_connection()
+    #         cursor = conn.cursor()
+    #
+    #         cursor.execute(query)
+    #         app.logger.info(cursor.rowcount)
+    #         if cursor.rowcount == 0:
+    #             return False
+    #         else:
+    #             conn.commit()
+    #             return True
+    #     except Exception as err:
+    #         app.logger.error("Exception in delete_category: %s", err)
+    #         return None
