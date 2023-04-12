@@ -30,8 +30,7 @@ ALTER TABLE [dbo].[EXPENSE]
 	ADD  DESCRIPTION NVARCHAR(MAX)  NULL;
 
 
-
-	CREATE PROCEDURE SendDueDateNotifications
+CREATE PROCEDURE SendDueDateNotifications
 AS
 BEGIN
     DECLARE @CurrentDate DATETIME = GETDATE();
@@ -39,20 +38,26 @@ BEGIN
     DECLARE @Body NVARCHAR(MAX);
     DECLARE @Subject NVARCHAR(255);
     DECLARE @Recipients NVARCHAR(MAX);
-    
-    -- Get the list of users to notify
+	 DECLARE @UserName NVARCHAR(MAX); 
+	  DECLARE @Description NVARCHAR(MAX); 
+
+    -- Declare and initialize the cursor
+    DECLARE cur CURSOR FOR
     SELECT
         USERNAME,
         DESCRIPTION
     FROM notification
-    WHERE DUE_DATE BETWEEN @CurrentDate AND DATEADD(HOUR, 24, @CurrentDate)
+    WHERE DUE_DATE BETWEEN @CurrentDate AND DATEADD(HOUR, 24, @CurrentDate);
+    
+    OPEN cur;
     
     -- Iterate through the results and send emails using sp_send_dbmail
+    FETCH NEXT FROM cur INTO @UserName, @Description;
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        SET @Body = 'Dear ' + USERNAME + ',<br><br>' + DESCRIPTION;
+        SET @Body = 'Dear ' + @UserName + ',<br><br>' + @Description;
         SET @Subject = 'Notification for Due Date';
-        SET @Recipients = USERNAME + '@example.com';
+        SET @Recipients = @UserName + '@example.com';
         
         EXEC msdb.dbo.sp_send_dbmail
             @profile_name = 'YourDatabaseMailProfile',
@@ -61,12 +66,13 @@ BEGIN
             @body = @Body,
             @body_format = 'HTML';
         
-        FETCH NEXT FROM cursor INTO USERNAME, DESCRIPTION;
+        FETCH NEXT FROM cur INTO @UserName, @Description;
     END
     
-    CLOSE cursor;
-    DEALLOCATE cursor;
-END
+    CLOSE cur;
+    DEALLOCATE cur;
+END 
+
 
 
 CREATE TABLE notification (
