@@ -49,7 +49,11 @@ def add_category():
         user = get_current_user()
         is_premium = check_is_premium()
 
-        if user["role"] == 2 or is_premium == 1:
+        print('===================')
+        print(user)
+        print('===================')
+
+        if user["role"] == 5 or is_premium == 1:
             data = request.get_json()
             obj = category_db.CategoryDB()
             res = obj.add_category(user["ID"], data["name"], data["remarks"])
@@ -76,7 +80,7 @@ def update_category():
         user = get_current_user()
         is_premium = check_is_premium()
 
-        if user["role"] == 2 or is_premium == 1:
+        if user["role"] == 5 or is_premium == 1:
             data = request.get_json()
             obj = category_db.CategoryDB()
             res = obj.update_category(user["role"], user["ID"], data["id"], data["name"], data["remarks"])
@@ -103,7 +107,7 @@ def delete_category():
         user = get_current_user()
         is_premium = check_is_premium()
 
-        if user["role"] == 2 or is_premium:
+        if user["role"] == 5 or is_premium:
             data = request.get_json()
             obj = category_db.CategoryDB()
             res = obj.delete_category(user["role"], user["ID"], data["id"])

@@ -131,7 +131,7 @@ export class AuthService {
 
   // User is an administrator
   isAdmin(): boolean {
-    return localStorage.getItem('role') == '2';
+    return localStorage.getItem('role') == '5';
   }
 
   // get username

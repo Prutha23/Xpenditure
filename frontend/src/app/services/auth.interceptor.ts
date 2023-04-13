@@ -13,20 +13,20 @@ export class AuthInterceptor implements HttpInterceptor {
               private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // if (!/.*\/api\/auth\/.*/.test(req.url)) {
-    //   return this.auth.getAccessToken().pipe(
-    //     mergeMap((accessToken: string) => {
-    //       const reqAuth = req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } });
-    //       return next.handle(reqAuth);
-    //     }),
-    //     catchError((err) => {
-    //       console.error(err);
-    //       this.router.navigate(['/login']);
-    //       return throwError(err);
-    //     })
-    //   );
-    // } else {
-    // }
-    return next.handle(req);
+    if (!/.*\/api\/auth\/.*/.test(req.url)) {
+      return this.auth.getAccessToken().pipe(
+        mergeMap((accessToken: string) => {
+          const reqAuth = req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } });
+          return next.handle(reqAuth);
+        }),
+        catchError((err) => {
+          console.error(err);
+          this.router.navigate(['/login']);
+          return throwError(err);
+        })
+      );
+    } else {
+      return next.handle(req);
+    }
   }
 }

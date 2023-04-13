@@ -122,7 +122,7 @@ def admin_required(func):
         try:
             user = get_authenticated_user()
             # role = 2 is for admin and role = 1 is for user
-            if user['role'] == 2:
+            if user['role'] == 5:
                 return func(*args, **kwargs)
             else:
                 abort(403)

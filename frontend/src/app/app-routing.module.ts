@@ -8,6 +8,10 @@ import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './error/error.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegisterComponent } from './register/register.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { ReportsComponent } from './reports/reports.component';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   {
@@ -37,6 +41,26 @@ const routes: Routes = [
       // { path: 'admin-content', component: AdminContentComponent, canActivate: [AdminGuard] },
       { path: 'error', component: ErrorComponent }
     ]
+  },
+  {
+    path: 'personal-details',
+    component: UserDetailsComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'add-expense',
+    component: AddExpenseComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'categories',
+    component: CategoryComponent,
+    canActivate: [ AuthGuard ]
   }
 ];
 

@@ -14,8 +14,8 @@
     <div>
         Category
         <div *ngFor="let category of categories; let i = index">
-            <input type="radio" name="category" id="{{category + i}}" [value]="category" formControlName="category">
-            <label for="{{category + i}}">{{ category | titlecase }}</label>
+            <input type="radio" name="category" id="{{category.NAME + i}}" [value]="category" formControlName="category">
+            <label for="{{category.NAME + i}}">{{ category.NAME | titlecase }}</label>
         </div>
     </div>
 

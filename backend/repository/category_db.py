@@ -35,7 +35,7 @@ class CategoryDB:
             user_id = auth.get_current_user_id()
             category_list = []
 
-            query = f"select ID, NAME, REMARKS from CATEGORY where created_by = '{user_id}' or created_by IN (select ID from users where role = 2);"
+            query = f"select ID, NAME, REMARKS from CATEGORY where created_by = '{user_id}' or created_by IN (select ID from users where role = 5);"
             app.logger.info(query)
 
             cursor.execute(query)

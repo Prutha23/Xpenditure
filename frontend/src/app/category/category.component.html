@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-xs-10">
+        <div class="row">
+            <div class="col-xs-12">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-sm-5 form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control" name="name" formControlName="name">
+                        </div>
+                        <div class="col-sm-5 form-group">
+                            <label for="remarks">Remarks</label>
+                            <input type="text" id="remarks" class="form-control" name="remarks" formControlName="remarks">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-success" type="submit" [disabled]="form.invalid">{{ editMode ? 'Update' : 'Add' }}</button>
+                            <button class="btn btn-danger" type="button" *ngIf="editMode" (click)="onDelete()">Delete</button>
+                            <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <ul class="list-group">
+            <a class="list-group-item"
+            style="cursor: pointer;"
+            *ngFor="let category of categories; let i = index"
+            (click)="onCategoryToggle(category)">
+                {{ category.NAME }} ({{ category.REMARKS }})
+            </a>
+        </ul>
+    </div>
+</div>
