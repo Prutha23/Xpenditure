@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
 
     // get user data
-    this.http.get('/users/getAll').subscribe(
+    this.http.get('/admin/getAllUsers').subscribe(
       (res => {
         if(res["statusCode"] == '200'){
           console.log(res)
@@ -40,7 +40,7 @@ export class UserComponent implements OnInit {
     else
       active = 1
     
-    this.http.post('/users/updateActiveStatus', {ID: user.ID, IS_ACTIVE: active}).subscribe(
+    this.http.post('/admin/updateUserActiveStatus', {ID: user.ID, IS_ACTIVE: active}).subscribe(
       (res => {
         if(res["statusCode"] == '200'){
           console.log(res)
@@ -54,7 +54,7 @@ export class UserComponent implements OnInit {
     );
 
     // get user data
-    this.http.get('/users/getAll').subscribe(
+    this.http.get('/admin/getAllUsers').subscribe(
       (res => {
         if(res["statusCode"] == '200'){
           console.log(res)

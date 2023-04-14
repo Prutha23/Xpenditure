@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
       if(this.auth.isAdmin())
         this.router.navigate(['/admin/dashboard']);
       else if(this.auth.isUser())
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/u-dashboard']);
       else
         this.router.navigate(['/error']);
     }
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         if(this.auth.isAdmin())
           this.router.navigate(['/admin/dashboard']);
         else if(this.auth.isUser())
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home/u-dashboard']);
         else
           this.router.navigate(['/error']);
       },

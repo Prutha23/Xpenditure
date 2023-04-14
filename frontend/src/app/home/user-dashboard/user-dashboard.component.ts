@@ -3,27 +3,25 @@ import { Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-admin-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css']
+  selector: 'app-user-dashboard',
+  templateUrl: './user-dashboard.component.html',
+  styleUrls: ['./user-dashboard.component.css']
 })
-export class AdminDashboardComponent implements OnInit {
+export class UserDashboardComponent implements OnInit {
 
-  users = 0;
-  premium_users = 0;
-  expenses:any = [];
+  data: any = []
 
   constructor(private http: HttpService, private router: Router) {}
 
-  ngOnInit(){
-    // load counts
-    this.http.get('/admin/count').subscribe(
+  ngOnInit(): void {
+
+    // get dashboard data
+    this.http.get('/user/dashboard').subscribe(
       (res => {
         if(res["statusCode"] == '200'){
           console.log(res)
-          this.users = res['data']['USERS']
-          this.premium_users = res['data']['PREMIUM_USERS']
-          this.expenses = res['data']['EXPENSES']
+          this.data = res['data']
+          console.log(this.data)
         }
         else
           this.router.navigate(['/error'])

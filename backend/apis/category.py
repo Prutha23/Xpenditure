@@ -45,6 +45,25 @@ def get_categories_for_user():
         abort(500)
 
 
+@app.route("/api/category/getAllPremiumCategories")
+@auth_required
+def get_all_premium_categories_for_user():
+    try:
+        obj = category_db.CategoryDB()
+        res = obj.get_premium_categories_for_user()
+        if res is not None:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Success",
+                "data": res
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in get_all_premium_categories_for_user: %s", err)
+        abort(500)
+
 @app.route("/api/category/addCategory", methods=['POST'])
 @auth_required
 def add_category():

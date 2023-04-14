@@ -1,0 +1,17 @@
+.card{
+    width: 35%;
+    margin-top: 7%;
+    text-align: center;
+}
+
+p{
+    font-size: smaller;
+}
+
+button{
+    width: 99%;
+}
+
+.em{
+    background-color: #dfdfdf;
+}

@@ -19,6 +19,10 @@ import { CategoryComponent } from './admin/category/category.component';
 import { UserComponent } from './admin/user/user.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { RemindersComponent } from './home/reminders/reminders.component';
+import { ProfileComponent } from './home/profile/profile.component';
+import { PaymentComponent } from './home/payment/payment.component';
+import { UserDashboardComponent } from './home/user-dashboard/user-dashboard.component';
+import { PremiumCategoryComponent } from './home/premium-category/premium-category.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { RemindersComponent } from './home/reminders/reminders.component';
     CategoryComponent,
     UserComponent,
     AdminDashboardComponent,
-    RemindersComponent
+    RemindersComponent,
+    ProfileComponent,
+    PaymentComponent,
+    UserDashboardComponent,
+    PremiumCategoryComponent
   ],
   imports: [
     BrowserModule,

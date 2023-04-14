@@ -14,6 +14,10 @@ import { UserComponent } from './admin/user/user.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { RemindersComponent } from './home/reminders/reminders.component';
+import { ProfileComponent } from './home/profile/profile.component';
+import { PaymentComponent } from './home/payment/payment.component';
+import { UserDashboardComponent } from './home/user-dashboard/user-dashboard.component';
+import { PremiumCategoryComponent } from './home/premium-category/premium-category.component';
 
 const routes: Routes = [
   {
@@ -55,7 +59,11 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: 'expense', component: ExpenseComponent },
-      { path: 'reminders', component: RemindersComponent }
+      { path: 'reminders', component: RemindersComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'to-premium', component: PaymentComponent },
+      { path: 'u-dashboard', component: UserDashboardComponent },
+      { path: 'p-category', component: PremiumCategoryComponent }
     ]
   }
 ];

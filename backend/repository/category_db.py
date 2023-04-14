@@ -15,7 +15,7 @@ class CategoryDB:
             user_id = auth.get_current_user_id()
             category_list = []
 
-            query = f"select ID, NAME, REMARKS from CATEGORY ORDER BY NAME;"
+            query = f"select c.ID, c.NAME, c.REMARKS from CATEGORY c LEFT JOIN USERS_DETAILS ud ON ud.U_ID = c.CREATED_BY where ud.IS_PREMIUM = 0 ORDER BY c.NAME;"
             app.logger.info(query)
 
             cursor.execute(query)
@@ -36,6 +36,26 @@ class CategoryDB:
             category_list = []
 
             query = f"select ID, NAME, REMARKS from CATEGORY where created_by = '{user_id}' or created_by IN (select ID from users where role = 2) ORDER BY NAME;"
+            app.logger.info(query)
+
+            cursor.execute(query)
+            for row in cursor.fetchall():
+                category_dit = {}
+                category_dit["ID"], category_dit["NAME"], category_dit["REMARKS"] = row
+                category_list.append(category_dit)
+            return category_list
+        except Exception as err:
+            app.logger.error("Exception in get_categories_for_user: %s", err)
+            return None
+
+    def get_premium_categories_for_user(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            user_id = auth.get_current_user_id()
+            category_list = []
+
+            query = f"select ID, NAME, REMARKS from CATEGORY where created_by = '{user_id}'"
             app.logger.info(query)
 
             cursor.execute(query)

@@ -2,8 +2,13 @@
     <div class="navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item pl-20" (click)="toggleColor('f1')">
-                <a class="nav-link" routerLink="/home"><span><i class="bi bi-house" [style.color]="f1 ? 'greenyellow' : 'white'"></i></span></a>
+                <a class="nav-link" routerLink="/home/u-dashboard"><span><i class="bi bi-house" [style.color]="f1 ? 'greenyellow' : 'white'"></i></span></a>
             </li>
+            <ng-template [ngIf]="this.auth.isPremiumUser() == 'true'">
+                <li class="nav-item pl-20" (click)="toggleColor('f5')">
+                    <a class="nav-link" routerLink="/home/p-category" [style.color]="f5 ? 'greenyellow' : 'white'">Category</a>
+                </li>
+            </ng-template>
             <li class="nav-item pl-20" (click)="toggleColor('f2')">
                 <a class="nav-link" routerLink="/home/expense" [style.color]="f2 ? 'greenyellow' : 'white'">Expense</a>
             </li>
@@ -15,10 +20,17 @@
             </li>
         </ul>        
     </div>
-    <a class="navbar-brand" routerLink="/home">Xpenditure</a>     
-    <a class="pl-20">
-        <span><i class="icn bi bi-person-circle"></i></span>
-    </a>    
+    <a class="navbar-brand" routerLink="/home">Xpenditure</a>
+    <div class="dropdown">
+        <a (click)="showDropdown=!showDropdown" class="pl-20"><i class="icn bi bi-person-circle"></i></a>
+        <div [style.display]="showDropdown?'block':'none'" class="dropdown-content">
+          <a routerLink="/home/profile" (click)="showDropdown=!showDropdown">Profile</a>
+          <ng-template [ngIf]="this.auth.isPremiumUser() == 'false'">
+            <a routerLink="/home/to-premium" (click)="showDropdown=!showDropdown">Convert to Premium</a>
+          </ng-template>
+          <a routerLink="/logout" (click)="showDropdown=!showDropdown">Logout</a>
+        </div>
+    </div>
 </nav>
 <div class="container-fluid">
     <router-outlet></router-outlet>    

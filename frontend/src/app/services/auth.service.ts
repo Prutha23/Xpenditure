@@ -145,7 +145,7 @@ export class AuthService {
     return localStorage.getItem('username');
   }
 
-  isPremiumUser(): boolean {
-    return <any>localStorage.getItem('is_premium');
+  isPremiumUser(): any {
+    return localStorage.getItem('is_premium');
   }
 }
