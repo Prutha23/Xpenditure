@@ -84,14 +84,37 @@ class ExpenseDB:
             app.logger.error("Exception in delete_expense %s", err)
             return None
         
-    # Repository functions for Report and Expense Prediction API 
+# Repository functions for Report and Expense Prediction API 
+    # Get All Expenses Report
     def get_all_expenses(self):
         try:
             conn = db_connect.get_connection()
             cursor = conn.cursor()
             expense_list = []
 
-            query = "select ID, CAT_ID, AMOUNT from EXPENSE;"
+            query = "SELECT ID, CAT_ID, AMOUNT, CREATED_BY, DESCRIPTION, CREATED_DATE, UPDATED_BY, UPDATED_DATE, EXPENSE_DATE FROM EXPENSE  "
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                expense_dit = {}
+                (expense_dit["ID"], expense_dit["CAT_ID"], expense_dit["AMOUNT"], expense_dit["CREATED_BY"],
+                expense_dit["DESCRIPTION"], expense_dit["CREATED_DATE"], expense_dit["UPDATED_BY"],
+                expense_dit["UPDATED_DATE"], expense_dit["EXPENSE_DATE"]) = row
+                expense_list.append(expense_dit)
+                return expense_list
+        except Exception as err:
+            app.logger.error("Exception in Get All Expenses Function %s", err)
+            return None
+    
+    # Get Top Expenses Report
+    def get_top_expenses(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            expense_list = []
+
+            query = "SELECT ID, CAT_ID, AMOUNT, CREATED_BY, DESCRIPTION, CREATED_DATE, UPDATED_BY, UPDATED_DATE, EXPENSE_DATE FROM EXPENSE  "
             app.logger.info(query)
             cursor.execute(query)
 
@@ -99,7 +122,121 @@ class ExpenseDB:
                 expense_dit = {}
                 expense_dit["ID"], expense_dit["CAT_ID"], expense_dit["AMOUNT"] = row
                 expense_list.append(expense_dit)
+                return expense_list
+        except Exception as err:
+            app.logger.error("Exception in Get Top Expenses Function %s", err)
+            return None
+    
+    # Get All Expense by Category Report
+    def get_expenses_by_category(self, category_id):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            expense_list = []
+
+            query = f"SELECT ID, CAT_ID, AMOUNT FROM EXPENSE WHERE CAT_ID = {category_id}"
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                expense_dict = {}
+                expense_dict["ID"], expense_dict["CAT_ID"], expense_dict["AMOUNT"] = row
+                expense_list.append(expense_dict)
             return expense_list
         except Exception as err:
-            app.logger.error("Exception in get_expense_from_category_id %s", err)
+            app.logger.error("Exception in Get All Expense by Category Report %s", err)
+            return None
+        
+    # Get Top Users by Expenses
+    def get_top_users_by_expenses(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            top_users_list = []
+
+            query = """
+                SELECT TOP 10
+                    U.ID,
+                    U.USERNAME,
+                SUM(E.AMOUNT) AS TOTAL_EXPENSE
+                    FROM
+                    USERS U
+                JOIN
+                    EXPENSE E ON E.CREATED_BY = U.ID
+                GROUP BY
+                    U.ID, U.USERNAME
+                ORDER BY
+                    TOTAL_EXPENSE DESC;
+            """
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                user_dit = {}
+                user_dit["ID"], user_dit["USERNAME"], user_dit["TOTAL_EXPENSE"] = row
+                top_users_list.append(user_dit)
+            return top_users_list
+        except Exception as err:
+            app.logger.error("Exception in Get Top Users by Expenses %s", err)
+            return None
+        
+    # Get Average Expenses per User
+    def get_average_expenses_per_user(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            user_expense_list = []
+
+            query = """SELECT U.ID AS USER_ID, U.USERNAME, AVG(E.AMOUNT) AS AVG_EXPENSE
+                    FROM USERS U
+                    JOIN EXPENSE E ON U.ID = E.CREATED_BY
+                    GROUP BY U.ID, U.USERNAME;"""
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                user_expense_dict = {}
+                user_expense_dict["USER_ID"], user_expense_dict["USERNAME"], user_expense_dict["AVG_EXPENSE"] = row
+                user_expense_list.append(user_expense_dict)
+            return user_expense_list
+        except Exception as err:
+            app.logger.error("Exception in Get Average Expenses per User %s", err)
+            return None
+
+    # Get Expense by User Type
+    def get_expense_by_user_type(self):
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+            user_expense_list = []
+
+            query = """
+                SELECT 
+                    U.ID AS USER_ID,
+                    CASE
+                        WHEN PU.ID IS NULL THEN 'Regular User'
+                        ELSE 'Premium User'
+                    END AS USER_TYPE,
+                    SUM(E.AMOUNT) AS TOTAL_EXPENSE
+                FROM 
+                    USERS U
+                LEFT JOIN 
+                    PREMIUM_USERS PU ON U.ID = PU.USERID
+                INNER JOIN 
+                    EXPENSE E ON U.ID = E.CREATED_BY
+                GROUP BY 
+                    U.ID,
+                    PU.ID;
+            """
+            app.logger.info(query)
+            cursor.execute(query)
+
+            for row in cursor.fetchall():
+                expense_dict = {}
+                expense_dict["USER_ID"], expense_dict["USER_TYPE"], expense_dict["TOTAL_EXPENSE"] = row
+                user_expense_list.append(expense_dict)
+
+            return user_expense_list
+        except Exception as err:
+            app.logger.error("Exception in Get Expense by User Type %s", err)
             return None
