@@ -1,4 +1,5 @@
 from repository import db_connect
+from repository import subscription_db
 from main import app
 from utils import auth
 
@@ -20,6 +21,10 @@ class UserDB:
             for row in cursor.fetchall():
                 user_dir = {}
                 user_dir["ID"], user_dir["USERNAME"], user_dir["IS_ACTIVE"], user_dir["IS_PREMIUM"] = row
+
+                obj = subscription_db.SubscriptionDB()
+                user_dir["PAYMENT_APPROVAL"] = obj.check_payment_status(user_dir["ID"])
+
                 users.append(user_dir)
             return users
         except Exception as err:

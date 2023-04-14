@@ -71,5 +71,17 @@ export class UserComponent implements OnInit {
 
   approvePayment(user: any){
     console.log(user)
+    // this.http.post('/admin/updateUserActiveStatus', {ID: user.ID, IS_ACTIVE: active}).subscribe(
+    //   (res => {
+    //     if(res["statusCode"] == '200'){
+    //       console.log(res)
+    //     }
+    //     else
+    //       this.router.navigate(['/error'])
+    //   }),
+    //   (err => {
+    //     this.router.navigate(['/error'])
+    //   })
+    // );
   }
 }

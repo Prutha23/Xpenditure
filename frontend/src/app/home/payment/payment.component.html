@@ -9,7 +9,71 @@
                 <li>Manage your expenses using these custom categories</li>
                 <li>Get the different prediction reports to analyze your expenses</li>
             </ul>
-            <button class="btn btn-lg btn-success">Pay $29 CAD per month</button>
+            <button class="btn btn-lg btn-success" (click)="openModal = true;clean();">Pay ${{amt}} CAD per month</button>
         </div>
     </div>
 </div>
+
+
+
+<!-- The Modal -->
+<div class="modal" [style.display]="openModal ? 'block' : 'none'">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Payment Details</h4>
+            </div>
+        </div>
+        <hr>
+        <form [formGroup]="paymentForm" (ngSumbit)="onSubmit()">
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Amount*</label>
+                    <input type="text" class="form-control hd" [value]="amt" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>End Date*</label>
+                    <input type="text" class="form-control hd" [value]="endDate" readonly>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="form-group col-md-6">
+                    <label>Payment Method*</label>
+                    <select class="form-control" formControlName="PAYMENT_METHOD">
+                        <option value="debit">Debit Card</option>
+                        <option value="credit">Credit Card</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cardholder Name*</label>
+                    <input type="text" class="form-control" formControlName="CARD_HOLDER_NAME">
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="form-group col-md-6">
+                    <label>Card Number*</label>
+                    <input type="number" class="form-control" formControlName="CARD_NO">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>CVV*</label>
+                    <input type="password" class="form-control">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Expiry Date*</label>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+        </form>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 tar">
+                <button type="submit" class="btn btn-success" (click)="openModal = false;onSubmit();" [disabled]="!paymentForm.valid">Make Payment</button>
+                <button type="button" class="btn btn-secondary ml-20" (click)="openModal = false">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div> 

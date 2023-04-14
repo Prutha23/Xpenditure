@@ -24,9 +24,9 @@
     <div class="dropdown">
         <a (click)="showDropdown=!showDropdown" class="pl-20"><i class="icn bi bi-person-circle"></i></a>
         <div [style.display]="showDropdown?'block':'none'" class="dropdown-content">
-          <a routerLink="/home/profile" (click)="showDropdown=!showDropdown">Profile</a>
+          <a routerLink="/home/profile" (click)="showDropdown=!showDropdown;toggleAll()">Profile</a>
           <ng-template [ngIf]="this.auth.isPremiumUser() == 'false'">
-            <a routerLink="/home/to-premium" (click)="showDropdown=!showDropdown">Convert to Premium</a>
+            <a routerLink="/home/to-premium" (click)="showDropdown=!showDropdown;toggleAll()">Convert to Premium</a>
           </ng-template>
           <a routerLink="/logout" (click)="showDropdown=!showDropdown">Logout</a>
         </div>

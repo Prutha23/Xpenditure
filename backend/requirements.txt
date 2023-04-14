@@ -1,3 +1,6 @@
 pip install Flask
 pip install flask-jwt-extended
 pip install pyodbc
+pip install python-dateutil
+pip install pandas
+pip install scikit-learn

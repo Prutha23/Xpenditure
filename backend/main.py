@@ -15,6 +15,9 @@ from apis.user_details import *  # noqa
 from apis.expense import *  # noqa
 from apis.category import *  # noqa
 from apis.reminder import *  # noqa
+from apis.subscription import *  # noqa
+from apis.top_charts import *  # noqa
+from apis.predictions import *  # noqa
 
 
 if __name__ == "__main__":

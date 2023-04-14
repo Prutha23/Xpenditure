@@ -23,7 +23,7 @@
                     <button class="btn btn-outline-success" (click)="changeActiveStatus(user)">
                         {{ user.IS_ACTIVE == 1 ? 'Deactivate' : 'Activate' }}
                     </button>
-                    <button class="btn btn-outline-primary ml-20" (click)="approvePayment(user)" *ngIf="user.IS_PREMIUM != 1">
+                    <button class="btn btn-outline-primary ml-20" (click)="approvePayment(user)" *ngIf="user.PAYMENT_APPROVAL">
                         Approve Payment
                     </button>
                 </td>

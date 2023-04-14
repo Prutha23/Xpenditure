@@ -23,6 +23,14 @@ export class HomeComponent implements OnInit{
     
   }
 
+  toggleAll() {
+    this.f1=false
+    this.f2=false
+    this.f3=false
+    this.f4=false
+    this.f5=false
+  }
+
   toggleColor(flag: string){
     if(flag === 'f1'){
       this.f1=true

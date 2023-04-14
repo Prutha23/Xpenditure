@@ -64,6 +64,7 @@ def get_all_premium_categories_for_user():
         app.logger.error("Exception in get_all_premium_categories_for_user: %s", err)
         abort(500)
 
+
 @app.route("/api/category/addCategory", methods=['POST'])
 @auth_required
 def add_category():
