@@ -1,7 +1,7 @@
 from repository import db_connect
 from utils import auth
 from main import app
-
+import pandas as pd
 
 class ExpenseDB:
 
@@ -239,4 +239,33 @@ class ExpenseDB:
             return user_expense_list
         except Exception as err:
             app.logger.error("Exception in Get Expense by User Type %s", err)
+            return None
+
+    # Expense Data for Prediction "RETURNS CSV DATA FOR PREDICTION"
+    def get_expense_data_for_prediction():
+        try:
+            conn = db_connect.get_connection()
+            cursor = conn.cursor()
+
+            query = """
+            SELECT
+                E.ID AS Expense_ID,
+                E.CAT_ID AS Category_ID,
+                C.NAME AS Category_Name,
+                E.AMOUNT AS Amount,
+                E.CREATED_BY AS User_ID,
+                UD.EMAILID AS User_Email,
+                UD.IS_PREMIUM AS Is_Premium,
+                E.EXPENSE_DATE AS Expense_Date
+            FROM
+                EXPENSE E
+                INNER JOIN CATEGORY C ON E.CAT_ID = C.ID
+                INNER JOIN USERS_DETAILS UD ON E.CREATED_BY = UD.U_ID;
+            """
+            cursor.execute(query)
+            result = cursor.fetchall()
+            column_names = [desc[0] for desc in cursor.description]
+            return pd.DataFrame(result, columns=column_names)
+        except Exception as err:
+            app.logger.error("Exception in get_expense_data_for_prediction: %s", err)
             return None
