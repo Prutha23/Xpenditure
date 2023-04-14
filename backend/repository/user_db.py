@@ -23,7 +23,7 @@ class UserDB:
                 user_dir["ID"], user_dir["USERNAME"], user_dir["IS_ACTIVE"], user_dir["IS_PREMIUM"] = row
 
                 obj = subscription_db.SubscriptionDB()
-                user_dir["PAYMENT_APPROVAL"] = obj.check_payment_status(user_dir["ID"])
+                user_dir["PAYMENT_DETAILS"] = obj.get_payment_details(user_dir["ID"])
 
                 users.append(user_dir)
             return users

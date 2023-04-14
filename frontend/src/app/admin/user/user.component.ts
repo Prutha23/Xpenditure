@@ -12,7 +12,14 @@ export class UserComponent implements OnInit {
 
   users: any = []
   openModal: Boolean = false;
-
+  pay_info:any = {
+    ID: '',
+    PAYMENT_DETAILS: {
+      SUBSRIPTION_DATE: '',
+      END_DATE: '',
+      AMOUNT: ''
+    }
+  }
   constructor(private http: HttpService, private router: Router) {}
 
   ngOnInit(): void {
@@ -69,19 +76,34 @@ export class UserComponent implements OnInit {
     );
   }
 
-  approvePayment(user: any){
-    console.log(user)
-    // this.http.post('/admin/updateUserActiveStatus', {ID: user.ID, IS_ACTIVE: active}).subscribe(
-    //   (res => {
-    //     if(res["statusCode"] == '200'){
-    //       console.log(res)
-    //     }
-    //     else
-    //       this.router.navigate(['/error'])
-    //   }),
-    //   (err => {
-    //     this.router.navigate(['/error'])
-    //   })
-    // );
+  approvePayment(info: any){
+    console.log(info)
+    this.http.post('/subscription/approve', {user_id: info.ID, start_date: info.PAYMENT_DETAILS.SUBSRIPTION_DATE, end_date: info.PAYMENT_DETAILS.END_DATE}).subscribe(
+      (res => {
+        if(res["statusCode"] == '200'){
+          console.log(res)
+        }
+        else
+          this.router.navigate(['/error'])
+      }),
+      (err => {
+        this.router.navigate(['/error'])
+      })
+    );
+
+    // get user data
+    this.http.get('/admin/getAllUsers').subscribe(
+      (res => {
+        if(res["statusCode"] == '200'){
+          console.log(res)
+          this.users = res['data']
+        }
+        else
+          this.router.navigate(['/error'])
+      }),
+      (err => {
+        this.router.navigate(['/error'])
+      })
+    );
   }
 }

@@ -114,6 +114,8 @@ CREATE TABLE PAYMENT (
 	CARD_HOLDER_NAME VARCHAR(30) NOT NULL,
 	CARD_NO VARCHAR(30) NOT NULL,
 	PAYMENT_STATUS CHAR(1),
+	UPDATED_BY INT,
+	UPDATED_DATE DATE DEFAULT getdate(),
 	CONSTRAINT fk_PAYMENT_PREMIUM_USERS
     FOREIGN KEY (USERID)
     REFERENCES PREMIUM_USERS (ID)
@@ -143,6 +145,42 @@ CREATE TABLE NOTIFICATION (
     REFERENCES USERS (ID),
 );
 
+-- insert statement for ROLE table 
 
 INSERT INTO ROLES(ROLESNAME, ROLESDESC) VALUES('USER', 'normal user'); 
 INSERT INTO ROLES(ROLESNAME, ROLESDESC) VALUES('ADMIN', 'admin user'); 
+
+-- procedure to approve payment 
+
+CREATE PROCEDURE [dbo].[APPROVE_PAYMENT]
+    @id INT,
+	@uid INT,
+    @start_date date,
+	@end_date date
+AS
+BEGIN
+    IF EXISTS (SELECT ID FROM PREMIUM_USERS WHERE USERID = @id)
+    BEGIN
+        UPDATE PREMIUM_USERS
+        SET START_DATE = @start_date,
+            END_DATE = @end_date,
+			UPDATED_DATE = getdate(),
+			UPDATED_BY = @uid
+        WHERE USERID = @id
+    END
+    ELSE
+    BEGIN
+        INSERT INTO PREMIUM_USERS(USERID, START_DATE, END_DATE)
+        VALUES (@id, @start_date, @end_date)
+    END
+END
+
+-- function to hash password
+
+CREATE FUNCTION [dbo].[HashPassword]
+    (@password NVARCHAR(20))
+    RETURNS VARBINARY(20)
+    AS
+BEGIN
+    RETURN HASHBYTES('SHA1', RTRIM(RTRIM(@password)));
+END

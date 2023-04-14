@@ -28,3 +28,25 @@ def payment():
     except Exception as err:
         app.logger.error("Exception in get_dashboard_data: %s", err)
         abort(500)
+
+
+@app.route("/api/subscription/approve", methods=['POST'])
+@admin_required
+def approve_payment():
+    try:
+        data = request.get_json()
+        db = subscription_db.SubscriptionDB()
+
+        res = db.approve_payment(data["user_id"], data["start_date"], data["end_date"])
+        if res is not None:
+            return make_response(jsonify({
+                "statusCode": 200,
+                "status": "Success",
+                "message": "Success",
+                "data": res
+            }))
+        else:
+            abort(500)
+    except Exception as err:
+        app.logger.error("Exception in approve_payment: %s", err)
+        abort(500)
