@@ -9,6 +9,9 @@ from utils.auth import auth_required, abort
 @auth_required
 def get_all_for_current_user():
     try:
+        """
+            this api returns all expenses created by them to show on expense page 
+        """
         obj = expense_db.ExpenseDB()
         res = obj.getall_expenses_for_current_user()
         if res is not None:
@@ -29,7 +32,10 @@ def get_all_for_current_user():
 @auth_required
 def get_by_category_id():
     try:
-        # cat_id
+        """
+            it will return the expense for particular category
+            request param: cat_id
+        """
         args = request.args.to_dict()
         obj = expense_db.ExpenseDB()
         res = obj.get_expense_from_category_id(args["cat_id"])
@@ -51,7 +57,10 @@ def get_by_category_id():
 @auth_required
 def add_expense():
     try:
-        # cat_id, amount, description, expense_date
+        """
+            this api used to add new expense in Expense table
+            request param:  cat_id, amount, description, expense_date
+        """
         data = request.get_json()
         obj = expense_db.ExpenseDB()
         res = obj.add_expense(data["cat_id"], data["amount"], data["description"], data["expense_date"])
@@ -72,7 +81,10 @@ def add_expense():
 @auth_required
 def update_expense():
     try:
-        # ID, cat_id, amount, description, expense_date
+        """
+            this api used to update the information of already created expense
+            request param: ID, cat_id, amount, description, expense_date
+        """
         data = request.get_json()
         obj = expense_db.ExpenseDB()
         res = obj.update_expense(data["ID"], data["cat_id"], data["amount"], data["description"], data["expense_date"])
@@ -93,7 +105,10 @@ def update_expense():
 @auth_required
 def delete_expense():
     try:
-        # id
+        """
+            this api used to delete the expense
+            request param: id
+        """
         data = request.get_json()
         obj = expense_db.ExpenseDB()
         res = obj.delete_expense(data["id"])

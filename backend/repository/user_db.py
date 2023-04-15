@@ -159,23 +159,3 @@ class UserDB:
         except Exception as err:
             app.logger.error("Exception in get_admin_counts: %s", err)
             return None
-
-    # def delete_user(self, username):
-    #     try:
-    #         conn = db_connect.get_connection()
-    #         cursor = conn.cursor()
-    #
-    #         query = f"DELETE FROM USERS WHERE USERNAME = '{username}';"
-    #         app.logger.info(query)
-    #
-    #         cursor.execute(query)
-    #         app.logger.info(cursor.rowcount)
-    #
-    #         if cursor.rowcount == 0:
-    #             return False
-    #         else:
-    #             conn.commit()
-    #             return True
-    #     except Exception as err:
-    #         app.logger.error("Exception in delete_user: %s", err)
-    #         return None

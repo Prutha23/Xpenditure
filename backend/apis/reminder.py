@@ -9,6 +9,9 @@ from utils.auth import auth_required, abort
 @auth_required
 def get_all_reminders_for_current_user():
     try:
+        """
+            it will return all the reminders created by current user
+        """
         obj = reminder_db.ReminderDB()
         res = obj.getall_for_current_user()
         if res is not None:
@@ -29,7 +32,11 @@ def get_all_reminders_for_current_user():
 @auth_required
 def add_reminder():
     try:
-        # email, due_date, description
+        """
+            used to add new reminder in NOTIFICATION table
+            Note: using the XpenditureEmailJob and SendDueDateNotifications every night user will get the email notification for their due payments
+            request param: EMAIL, DUE_DATE, DESCRIPTION
+        """
         data = request.get_json()
         obj = reminder_db.ReminderDB()
         res = obj.add_reminder(data["EMAIL"], data["DUE_DATE"], data["DESCRIPTION"])
@@ -50,7 +57,10 @@ def add_reminder():
 @auth_required
 def update_reminder():
     try:
-        # id, email, due_date, description
+        """
+            used to update the already created reminder
+            request param: ID, EMAIL, DUE_DATE, DESCRIPTION
+        """
         data = request.get_json()
         obj = reminder_db.ReminderDB()
         res = obj.update_reminder(data["ID"], data["EMAIL"], data["DUE_DATE"], data["DESCRIPTION"])
@@ -71,7 +81,10 @@ def update_reminder():
 @auth_required
 def delete_reminder():
     try:
-        # id
+        """
+            used to delete the reminder
+            request param: ID
+        """
         data = request.get_json()
         obj = reminder_db.ReminderDB()
         res = obj.delete_reminder(data["ID"])

@@ -80,12 +80,15 @@
 # # Predict next month's expenses
 # next_month_predictions = model.predict(future_expenses_df.drop(columns=['Category_Name']))
 # future_expenses_df['Predicted_Amount'] = next_month_predictions
-#
-# # API for GET call for next month predictions
+
+
 # @app.route("/api/reports/predictions", methods=["GET"])
 # @admin_required
 # def get_expense_by_user_type():
 #     try:
+#         """
+#             API for GET call for next month predictions
+#         """
 #         res = next_month_predictions.to_dict(orient='records')
 #         if res:
 #             return make_response(jsonify({

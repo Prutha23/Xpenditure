@@ -9,6 +9,9 @@ from repository import user_db
 @auth_required
 def get_dashboard_data():
     try:
+        """
+            this api returns the current month expense summary which is displayed on user-dashboard
+        """
         userDb = user_db.UserDB()
         res = userDb.get_user_dashboard_data()
         if res is not None:

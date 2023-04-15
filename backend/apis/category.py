@@ -9,6 +9,10 @@ from utils.auth import auth_required, admin_required, abort, get_current_user, c
 @admin_required
 def get_all_categories():
     try:
+        """
+            It will return all the default categories created by admins 
+            it requires admin access because only admin can do CRUD on these default categories
+        """
         obj = category_db.CategoryDB()
         res = obj.get_all_categories()
         if res is not None:
@@ -29,6 +33,9 @@ def get_all_categories():
 @auth_required
 def get_categories_for_user():
     try:
+        """
+            this api used is to fetch all categories to show in expense form dropdown menu
+        """
         obj = category_db.CategoryDB()
         res = obj.get_categories_for_user()
         if res is not None:
@@ -49,6 +56,9 @@ def get_categories_for_user():
 @auth_required
 def get_all_premium_categories_for_user():
     try:
+        """
+            this api used is to fetch all categories to show in expense form dropdown menu
+        """
         obj = category_db.CategoryDB()
         res = obj.get_premium_categories_for_user()
         if res is not None:
@@ -69,7 +79,11 @@ def get_all_premium_categories_for_user():
 @auth_required
 def add_category():
     try:
-        # name, remarks
+        """
+            this api is used to add the category into Category table 
+            Note: only admin and premium users can do this
+            request param: NAME, REMARKS
+        """
         user = get_current_user()
         is_premium = check_is_premium()
 
@@ -96,7 +110,10 @@ def add_category():
 @auth_required
 def update_category():
     try:
-        # id, name, remarks
+        """
+            this api is used to update the already created category
+            request param: ID, NAME, REMARKS
+        """
         user = get_current_user()
         is_premium = check_is_premium()
 
@@ -119,6 +136,9 @@ def update_category():
         abort(500)
 
 
+"""
+    as delete category is not permitted to any type of users, we have commented this method
+"""
 # @app.route("/api/category/deleteCategory", methods=['POST'])
 # @auth_required
 # def delete_category():

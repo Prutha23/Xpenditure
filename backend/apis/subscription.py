@@ -11,6 +11,11 @@ from dateutil.relativedelta import relativedelta
 @auth_required
 def payment():
     try:
+        """
+            this api uses to receive the payment for user so once admin approve the payment user will be converted to premium user
+            Note: we have not integrated any payment gateway
+            request param: PAYMENT_METHOD, CARD_HOLDER_NAME, CARD_NO
+        """
         data = request.get_json()
         db = subscription_db.SubscriptionDB()
         date_after_month = date.today() + relativedelta(months=1)
@@ -34,6 +39,10 @@ def payment():
 @admin_required
 def approve_payment():
     try:
+        """
+            this api is used to update the user status to premium when admin clicks on approve button
+            request param: user_id, start_date, end_date
+        """
         data = request.get_json()
         db = subscription_db.SubscriptionDB()
 

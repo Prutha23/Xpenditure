@@ -9,6 +9,9 @@ from repository import user_db
 @admin_required
 def get_all_users():
     try:
+        """
+            this api used to show all users on admin side
+        """
         obj = user_db.UserDB()
         res = obj.get_all()
         if res is not None:
@@ -29,6 +32,10 @@ def get_all_users():
 @admin_required
 def update_user_active_status():
     try:
+        """
+            when admin change the active status of user, this api will called to update the status in users table
+            request param: ID, IS_ACTIVE
+        """
         data = request.get_json()
         obj = user_db.UserDB()
         res = obj.update_active_status(data["ID"], data["IS_ACTIVE"])
@@ -49,6 +56,9 @@ def update_user_active_status():
 @admin_required
 def get_admin_dashboard_counts():
     try:
+        """
+            it will return total no of active and premium users as well as current month's expenses for admin dashboard
+        """
         obj = user_db.UserDB()
         res = obj.get_admin_dashboard_data()
         if res is not None:
