@@ -175,6 +175,63 @@ BEGIN
     END
 END
 
+-- Procedure to send email notification for reminders
+
+-- first enabled access to database mail xps
+sp_configure 'show advanced options', 1;  
+GO  
+RECONFIGURE; 
+GO
+sp_configure 'Database Mail XPs', 1;  
+GO  
+RECONFIGURE  
+GO
+
+-- this procedure will be called everynight using [XpenditureEmailJob]
+
+CREATE PROCEDURE SendDueDateNotifications
+AS
+BEGIN
+    DECLARE @CurrentDate DATETIME = GETDATE();
+    
+    DECLARE @Body NVARCHAR(MAX);
+    DECLARE @Subject NVARCHAR(255);
+    DECLARE @Recipients NVARCHAR(MAX);
+	 DECLARE @Email NVARCHAR(MAX); 
+	  DECLARE @Description NVARCHAR(MAX); 
+
+    -- Declare and initialize the cursor
+    DECLARE cur CURSOR FOR
+    SELECT
+        EMAIL,
+        DESCRIPTION
+    FROM NOTIFICATION
+    WHERE DUE_DATE BETWEEN @CurrentDate AND DATEADD(HOUR, 24, @CurrentDate);
+    
+    OPEN cur;
+    
+    -- Iterate through the results and send emails using sp_send_dbmail
+    FETCH NEXT FROM cur INTO @Email, @Description;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SET @Body = 'Dear user,<br><br>This is reminder regarding ' + @Description;
+        SET @Subject = 'Xpenditure - Notification for Due Date';
+        SET @Recipients = @Email;
+        
+        EXEC msdb.dbo.sp_send_dbmail
+            @profile_name = 'XpenditureProfile',
+            @recipients = @Recipients,
+            @subject = @Subject,
+            @body = @Body,
+            @body_format = 'HTML';
+        
+        FETCH NEXT FROM cur INTO @Email, @Description;
+    END
+    
+    CLOSE cur;
+    DEALLOCATE cur;
+END 
+
 -- function to hash password
 
 CREATE FUNCTION [dbo].[HashPassword]
